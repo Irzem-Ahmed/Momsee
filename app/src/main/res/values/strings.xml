@@ -1,0 +1,77 @@
+<resources>
+    <string name="app_name">Momsee</string>
+
+    <!-- Navigation Labels -->
+    <string name="nav_home">Home</string>
+    <string name="nav_timeline">Timeline</string>
+    <string name="nav_milestones">Milestones</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="home_greeting">Hello there!</string>
+    <string name="home_you_are">You are</string>
+    <string name="home_weeks_and_days">%1$d weeks and %2$d days</string>
+    <string name="home_pregnant">pregnant</string>
+    <string name="home_conception">Conception</string>
+    <string name="home_due_date_label">Due Date</string>
+    <string name="home_countdown_title">Countdown to Due Date</string>
+    <string name="home_days">Days</string>
+    <string name="home_weeks">Weeks</string>
+    <string name="home_no_date">Set your LMP in Settings to see your progress.</string>
+
+    <!-- Landing Screen -->
+    <string name="landing_welcome">Welcome to Momsee</string>
+    <string name="landing_instruction">To get started, please enter the date of your last period.</string>
+    <string name="landing_button">Enter Date of Last Period</string>
+
+    <!-- Milestones Screen -->
+    <string name="milestones_first_trimester">First Trimester</string>
+    <string name="milestones_first_trimester_weeks">Weeks 1 - 13</string>
+    <string name="milestones_second_trimester">Second Trimester</string>
+    <string name="milestones_second_trimester_weeks">Weeks 14 - 27</string>
+    <string name="milestones_third_trimester">Third Trimester</string>
+    <string name="milestones_third_trimester_weeks">Weeks 28 - 42</string>
+    <string name="milestones_no_date">Set your LMP in Settings to see milestones.</string>
+
+    <!-- Milestone Names and Descriptions -->
+    <string name="milestone_conceived_title">Baby Conceived</string>
+    <string name="milestone_conceived_desc">Conception typically occurs 2 weeks after your last period.</string>
+    <string name="milestone_heartbeat_title">Heartbeat Detectable</string>
+    <string name="milestone_heartbeat_desc">A heartbeat can often be seen on an ultrasound as a tiny flutter.</string>
+    <string name="milestone_movements_title">Noticeable Movements</string>
+    <string name="milestone_movements_desc">Also known as \'quickening\', these first flutters become distinct kicks.</string>
+    <string name="milestone_gender_title">Gender Can Be Found Out</string>
+    <string name="milestone_gender_desc">Usually determined during the mid-pregnancy anatomy scan.</string>
+    <string name="milestone_midway_title">Midway Point</string>
+    <string name="milestone_midway_desc">Congratulations! You are halfway through your pregnancy journey at 20 weeks.</string>
+    <string name="milestone_survival_title">Premature Baby May Survive</string>
+    <string name="milestone_survival_desc">The \'edge of viability\' where survival becomes possible with intensive care.</string>
+    <string name="milestone_breathe_title">Baby Can Breathe</string>
+    <string name="milestone_breathe_desc">Lungs develop air sacs and surfactant. Maturity reached by week 37.</string>
+    <string name="milestone_full_term_title">Full Term</string>
+    <string name="milestone_full_term_desc">Your baby is considered fully developed and ready for birth.</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_pregnancy_data">Pregnancy Data</string>
+    <string name="settings_lmp_label">Last Period Date:</string>
+    <string name="settings_not_set">Not set</string>
+    <string name="settings_change_date">Change Date</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_system_mode">Following system (%1$s)</string>
+    <string name="settings_forced_mode">Forced</string>
+    <string name="settings_reset_theme">Reset to System</string>
+
+    <!-- Timeline Screen -->
+    <string name="timeline_first_trimester_info">Weeks 1 - 13\nStarted on: %1$s</string>
+    <string name="timeline_second_trimester_info">Weeks 14 - 27\nStarts on: %1$s</string>
+    <string name="timeline_third_trimester_info">Weeks 28 - 40\nStarts on: %1$s</string>
+    <string name="timeline_due_date_card">Expected Due Date</string>
+    <string name="timeline_no_date">No date set. Go to Settings to set your LMP.</string>
+    <string name="timeline_sheet_first">First Trimester Weeks</string>
+    <string name="timeline_sheet_second">Second Trimester Weeks</string>
+    <string name="timeline_sheet_third">Third Trimester Weeks</string>
+    <string name="timeline_week_label">Week %1$d</string>
+    <string name="timeline_weeks_range">Weeks %1$d - %2$d</string>
+
+</resources>
