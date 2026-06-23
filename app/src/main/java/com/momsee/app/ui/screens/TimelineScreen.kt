@@ -25,7 +25,7 @@ fun TimelineScreen(lmpDateString: String?) {
 
     var selectedTrimester by remember { mutableStateOf<Int?>(null) }
     val sheetState = rememberModalBottomSheetState()
-    var showSheet by remember { mutableStateOf(false) }
+    var showSheet by remember { mutableStateOf(value = false) }
 
     Column(
         modifier = Modifier
@@ -37,7 +37,7 @@ fun TimelineScreen(lmpDateString: String?) {
             text = stringResource(R.string.nav_timeline),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 24.dp)
+            modifier = Modifier.padding(vertical = 24.dp),
         )
 
         if (lmpDate != null) {
@@ -48,46 +48,43 @@ fun TimelineScreen(lmpDateString: String?) {
             TimelineCard(
                 title = stringResource(R.string.milestones_first_trimester),
                 dateInfo = stringResource(R.string.timeline_first_trimester_info, lmpDate.format(formatter)),
-                onClick = {
-                    selectedTrimester = 1
-                    showSheet = true
-                }
-            )
+            ) {
+                selectedTrimester = 1
+                showSheet = true
+            }
             Spacer(modifier = Modifier.height(16.dp))
             TimelineCard(
                 title = stringResource(R.string.milestones_second_trimester),
                 dateInfo = stringResource(R.string.timeline_second_trimester_info, secondTrimesterStart.format(formatter)),
-                onClick = {
-                    selectedTrimester = 2
-                    showSheet = true
-                }
-            )
+            ) {
+                selectedTrimester = 2
+                showSheet = true
+            }
             Spacer(modifier = Modifier.height(16.dp))
             TimelineCard(
                 title = stringResource(R.string.milestones_third_trimester),
                 dateInfo = stringResource(R.string.timeline_third_trimester_info, thirdTrimesterStart.format(formatter)),
-                onClick = {
-                    selectedTrimester = 3
-                    showSheet = true
-                }
-            )
+            ) {
+                selectedTrimester = 3
+                showSheet = true
+            }
             Spacer(modifier = Modifier.height(32.dp))
             
             Card(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
                         text = stringResource(R.string.timeline_due_date_card),
                         fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
                         text = dueDate.format(formatter),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             }
@@ -102,13 +99,13 @@ fun TimelineScreen(lmpDateString: String?) {
                 showSheet = false
                 selectedTrimester = null
             },
-            sheetState = sheetState
+            sheetState = sheetState,
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
-                    .padding(bottom = 32.dp)
+                    .padding(bottom = 32.dp),
             ) {
                 val title = when (selectedTrimester) {
                     1 -> stringResource(R.string.timeline_sheet_first)
@@ -120,7 +117,7 @@ fun TimelineScreen(lmpDateString: String?) {
                     text = title,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp),
                 )
 
                 val weeksRange = when (selectedTrimester) {
@@ -131,7 +128,7 @@ fun TimelineScreen(lmpDateString: String?) {
 
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     items(weeksRange.toList()) { weekNumber ->
                         val daysToAdd = (weekNumber - 1) * 7L
@@ -140,24 +137,24 @@ fun TimelineScreen(lmpDateString: String?) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
                                 text = stringResource(R.string.timeline_week_label, weekNumber),
                                 fontWeight = FontWeight.SemiBold,
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyLarge,
                             )
                             Text(
                                 text = weekStartDate.format(weekFormatter),
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                         if (weekNumber != weeksRange.last) {
                             HorizontalDivider(
                                 modifier = Modifier.padding(top = 12.dp),
                                 thickness = 0.5.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant
+                                color = MaterialTheme.colorScheme.outlineVariant,
                             )
                         }
                     }

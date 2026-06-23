@@ -30,13 +30,13 @@ fun SettingsScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(R.string.nav_settings),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 24.dp)
+            modifier = Modifier.padding(vertical = 24.dp),
         )
 
         // Pregnancy Data Section
@@ -45,18 +45,18 @@ fun SettingsScreen(
                 Text(
                     text = stringResource(R.string.settings_pregnancy_data), 
                     fontWeight = FontWeight.Bold, 
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = stringResource(R.string.settings_lmp_label), 
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.labelLarge,
                 )
                 Text(
                     text = lmpDate?.format(formatter) ?: stringResource(R.string.settings_not_set),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp),
                 )
                 DatePickerButton(stringResource(R.string.settings_change_date), onDateSelected)
             }
@@ -70,19 +70,19 @@ fun SettingsScreen(
                 Text(
                     text = stringResource(R.string.settings_appearance), 
                     fontWeight = FontWeight.Bold, 
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Column {
                         Text(
                             text = stringResource(R.string.settings_dark_mode), 
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.Medium,
                         )
                         Text(
                             text = if (darkModeOverride == null) {
@@ -90,19 +90,19 @@ fun SettingsScreen(
                                 stringResource(R.string.settings_system_mode, systemMode)
                             } else stringResource(R.string.settings_forced_mode),
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                     Switch(
                         checked = darkModeOverride ?: isSystemDark,
-                        onCheckedChange = { onToggleDarkMode(it) }
+                        onCheckedChange = { onToggleDarkMode(it) },
                     )
                 }
 
                 if (darkModeOverride != null) {
                     TextButton(
                         onClick = { onToggleDarkMode(null) },
-                        modifier = Modifier.align(Alignment.End)
+                        modifier = Modifier.align(Alignment.End),
                     ) {
                         Text(stringResource(R.string.settings_reset_theme))
                     }

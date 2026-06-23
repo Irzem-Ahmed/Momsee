@@ -110,25 +110,45 @@ fun MomseeApp(darkModeOverride: Boolean?) {
                 if (currentScreen != "landing") {
                     NavigationBar {
                         NavigationBarItem(
-                            icon = { Icon(Icons.Default.Home, contentDescription = stringResource(R.string.nav_home)) },
+                            icon = {
+                                Icon(
+                                    Icons.Default.Home,
+                                    contentDescription = stringResource(R.string.nav_home),
+                                )
+                            },
                             label = { Text(stringResource(R.string.nav_home)) },
                             selected = currentScreen == "home",
                             onClick = { currentScreen = "home" },
                         )
                         NavigationBarItem(
-                            icon = { Icon(Icons.Default.DateRange, contentDescription = stringResource(R.string.nav_timeline)) },
+                            icon = {
+                                Icon(
+                                    Icons.Default.DateRange,
+                                    contentDescription = stringResource(R.string.nav_timeline),
+                                )
+                            },
                             label = { Text(stringResource(R.string.nav_timeline)) },
                             selected = currentScreen == "timeline",
                             onClick = { currentScreen = "timeline" },
                         )
                         NavigationBarItem(
-                            icon = { Icon(Icons.Default.Star, contentDescription = stringResource(R.string.nav_milestones)) },
+                            icon = {
+                                Icon(
+                                    Icons.Default.Star,
+                                    contentDescription = stringResource(R.string.nav_milestones),
+                                )
+                            },
                             label = { Text(stringResource(R.string.nav_milestones)) },
                             selected = currentScreen == "milestones",
                             onClick = { currentScreen = "milestones" },
                         )
                         NavigationBarItem(
-                            icon = { Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.nav_settings)) },
+                            icon = {
+                                Icon(
+                                    Icons.Default.Settings,
+                                    contentDescription = stringResource(R.string.nav_settings),
+                                )
+                            },
                             label = { Text(stringResource(R.string.nav_settings)) },
                             selected = currentScreen == "settings",
                             onClick = { currentScreen = "settings" },

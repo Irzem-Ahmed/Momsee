@@ -13,7 +13,15 @@ Momsee is a clean, privacy-focused pregnancy tracking app built with Jetpack Com
 
 ## Installation
 
-You can build the app from source using Android Studio and Gradle.
+The recommended way to install and stay updated is via **Obtainium**:
+
+1.  Download and install [Obtainium](https://github.com/ImranR98/Obtainium).
+2.  Add this repository's URL to Obtainium.
+3.  Obtainium will automatically detect new releases and handle updates for you.
+
+Alternatively, you can:
+- Download the latest APK from the **Releases** section of this repository.
+- Build the app from source using Android Studio and Gradle.
 
 ## License
 

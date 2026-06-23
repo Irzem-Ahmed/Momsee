@@ -38,64 +38,64 @@ fun MilestonesScreen(lmpDateString: String?) {
         Milestone(
             R.string.milestone_heartbeat_title,
             R.string.milestone_heartbeat_desc,
-            6, 7
+            6, 7,
         ),
         Milestone(
             R.string.milestone_movements_title,
             R.string.milestone_movements_desc,
-            16, 25
+            16, 25,
         ),
         Milestone(
             R.string.milestone_gender_title,
             R.string.milestone_gender_desc,
-            18, 22
+            18, 22,
         ),
         Milestone(
             R.string.milestone_midway_title,
             R.string.milestone_midway_desc,
-            20
+            20,
         ),
         Milestone(
             R.string.milestone_survival_title,
             R.string.milestone_survival_desc,
-            22, 24
+            22, 24,
         ),
         Milestone(
             R.string.milestone_breathe_title,
             R.string.milestone_breathe_desc,
-            26, 37
+            26, 37,
         ),
         Milestone(
             R.string.milestone_full_term_title,
             R.string.milestone_full_term_desc,
-            39, 40, 0, 6 // 39w 0d to 40w 6d
-        )
+            39, 40, 0, 6, // 39w 0d to 40w 6d
+        ),
     )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(R.string.nav_milestones),
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 24.dp)
+            modifier = Modifier.padding(vertical = 24.dp),
         )
 
         if (lmpDate != null) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(bottom = 24.dp)
+                contentPadding = PaddingValues(bottom = 24.dp),
             ) {
                 // First Trimester Section
                 item { 
                     TrimesterHeader(
                         stringResource(R.string.milestones_first_trimester), 
-                        stringResource(R.string.milestones_first_trimester_weeks)
+                        stringResource(R.string.milestones_first_trimester_weeks),
                     ) 
                 }
                 items(milestones.filter { it.startWeek <= 13 }) { milestone ->
@@ -107,7 +107,7 @@ fun MilestonesScreen(lmpDateString: String?) {
                     Spacer(modifier = Modifier.height(8.dp))
                     TrimesterHeader(
                         stringResource(R.string.milestones_second_trimester), 
-                        stringResource(R.string.milestones_second_trimester_weeks)
+                        stringResource(R.string.milestones_second_trimester_weeks),
                     ) 
                 }
                 items(milestones.filter { it.startWeek in 14..27 }) { milestone ->
@@ -119,7 +119,7 @@ fun MilestonesScreen(lmpDateString: String?) {
                     Spacer(modifier = Modifier.height(8.dp))
                     TrimesterHeader(
                         stringResource(R.string.milestones_third_trimester), 
-                        stringResource(R.string.milestones_third_trimester_weeks)
+                        stringResource(R.string.milestones_third_trimester_weeks),
                     ) 
                 }
                 items(milestones.filter { it.startWeek >= 28 }) { milestone ->
@@ -139,23 +139,23 @@ fun TrimesterHeader(title: String, subtitle: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(vertical = 8.dp),
     ) {
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
         Text(
             text = subtitle,
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         HorizontalDivider(
             modifier = Modifier.padding(top = 8.dp),
             thickness = 2.dp,
-            color = MaterialTheme.colorScheme.primaryContainer
+            color = MaterialTheme.colorScheme.primaryContainer,
         )
     }
 }
@@ -181,24 +181,24 @@ fun MilestoneCard(milestone: Milestone, lmpDate: LocalDate, formatter: DateTimeF
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = stringResource(milestone.titleRes),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
                 Text(
                     text = weeksText,
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
@@ -206,13 +206,13 @@ fun MilestoneCard(milestone: Milestone, lmpDate: LocalDate, formatter: DateTimeF
                 text = dateRangeText,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.secondary
+                color = MaterialTheme.colorScheme.secondary,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(milestone.descriptionRes),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

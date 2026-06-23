@@ -56,12 +56,12 @@ fun HomeScreen(lmpDateString: String?) {
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = stringResource(R.string.home_you_are),
                     style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 
                 Text(
@@ -69,13 +69,13 @@ fun HomeScreen(lmpDateString: String?) {
                     style = MaterialTheme.typography.displaySmall,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier.padding(vertical = 8.dp),
                 )
                 
                 Text(
                     text = stringResource(R.string.home_pregnant),
                     style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
                 Spacer(modifier = Modifier.height(48.dp))
@@ -95,10 +95,16 @@ fun HomeScreen(lmpDateString: String?) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(stringResource(R.string.home_conception), style = MaterialTheme.typography.labelSmall)
-                        Text(stringResource(R.string.home_due_date_label), style = MaterialTheme.typography.labelSmall)
+                        Text(
+                            stringResource(R.string.home_conception),
+                            style = MaterialTheme.typography.labelSmall,
+                        )
+                        Text(
+                            stringResource(R.string.home_due_date_label),
+                            style = MaterialTheme.typography.labelSmall,
+                        )
                     }
                 }
 
@@ -107,26 +113,32 @@ fun HomeScreen(lmpDateString: String?) {
                 // Countdown Card
                 Card(
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     Column(
                         modifier = Modifier.padding(24.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
                             text = stringResource(R.string.home_countdown_title),
                             style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Row(
                             modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                            horizontalArrangement = Arrangement.SpaceEvenly,
                         ) {
-                            CountdownItem(daysRemaining.toString(), stringResource(R.string.home_days))
-                            CountdownItem((daysRemaining / 7).toString(), stringResource(R.string.home_weeks))
+                            CountdownItem(
+                                daysRemaining.toString(),
+                                stringResource(R.string.home_days),
+                            )
+                            CountdownItem(
+                                (daysRemaining / 7).toString(),
+                                stringResource(R.string.home_weeks),
+                            )
                         }
                     }
                 }
