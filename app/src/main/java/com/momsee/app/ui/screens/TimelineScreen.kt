@@ -12,14 +12,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.momsee.app.R
+import com.momsee.app.ui.PregnancyUiState
 import com.momsee.app.ui.components.TimelineCard
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimelineScreen(lmpDateString: String?) {
-    val lmpDate = lmpDateString?.let { LocalDate.parse(it) }
+fun TimelineScreen(uiState: PregnancyUiState) {
     val formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
     val weekFormatter = DateTimeFormatter.ofPattern("EEE, MMM dd")
 
@@ -40,14 +39,13 @@ fun TimelineScreen(lmpDateString: String?) {
             modifier = Modifier.padding(vertical = 24.dp),
         )
 
-        if (lmpDate != null) {
-            val secondTrimesterStart = lmpDate.plusDays(91) // 13 weeks
-            val thirdTrimesterStart = lmpDate.plusDays(189) // 27 weeks
-            val dueDate = lmpDate.plusDays(280) // 40 weeks
+        if (uiState.lmpDate != null) {
+            val secondTrimesterStart = uiState.lmpDate.plusDays(91) // 13 weeks
+            val thirdTrimesterStart = uiState.lmpDate.plusDays(189) // 27 weeks
 
             TimelineCard(
                 title = stringResource(R.string.milestones_first_trimester),
-                dateInfo = stringResource(R.string.timeline_first_trimester_info, lmpDate.format(formatter)),
+                dateInfo = stringResource(R.string.timeline_first_trimester_info, uiState.lmpDate.format(formatter)),
             ) {
                 selectedTrimester = 1
                 showSheet = true
@@ -81,7 +79,7 @@ fun TimelineScreen(lmpDateString: String?) {
                         style = MaterialTheme.typography.titleMedium,
                     )
                     Text(
-                        text = dueDate.format(formatter),
+                        text = uiState.dueDate?.format(formatter) ?: "",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -93,7 +91,7 @@ fun TimelineScreen(lmpDateString: String?) {
         }
     }
 
-    if (((showSheet && (selectedTrimester != null)) && (lmpDate != null))) {
+    if (((showSheet && (selectedTrimester != null)) && (uiState.lmpDate != null))) {
         ModalBottomSheet(
             onDismissRequest = {
                 showSheet = false
@@ -123,7 +121,7 @@ fun TimelineScreen(lmpDateString: String?) {
                 val weeksRange = when (selectedTrimester) {
                     1 -> 1..13
                     2 -> 14..27
-                    else -> 28..40
+                    else -> 28..42
                 }
 
                 LazyColumn(
@@ -131,8 +129,10 @@ fun TimelineScreen(lmpDateString: String?) {
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     items(weeksRange.toList()) { weekNumber ->
-                        val daysToAdd = (weekNumber - 1) * 7L
-                        val weekStartDate = lmpDate.plusDays(daysToAdd)
+                        val startDaysToAdd = (weekNumber - 1) * 7L
+                        val endDaysToAdd = startDaysToAdd + 6L
+                        val weekStartDate = uiState.lmpDate.plusDays(startDaysToAdd)
+                        val weekEndDate = uiState.lmpDate.plusDays(endDaysToAdd)
                         
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -145,7 +145,7 @@ fun TimelineScreen(lmpDateString: String?) {
                                 style = MaterialTheme.typography.bodyLarge,
                             )
                             Text(
-                                text = weekStartDate.format(weekFormatter),
+                                text = "${weekStartDate.format(weekFormatter)} – ${weekEndDate.format(weekFormatter)}",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )

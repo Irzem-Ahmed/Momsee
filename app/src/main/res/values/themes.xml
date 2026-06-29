@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.Momsee" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/momsee_app_icon</item>
+        <item name="windowSplashScreenBackground">#1E1E1E</item>
+        <item name="postSplashScreenTheme">@style/Theme.Momsee</item>
+    </style>
 </resources>

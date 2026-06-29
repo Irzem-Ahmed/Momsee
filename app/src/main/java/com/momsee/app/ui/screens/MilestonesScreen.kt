@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.momsee.app.R
+import com.momsee.app.ui.PregnancyUiState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -25,8 +26,7 @@ data class Milestone(
 )
 
 @Composable
-fun MilestonesScreen(lmpDateString: String?) {
-    val lmpDate = lmpDateString?.let { LocalDate.parse(it) }
+fun MilestonesScreen(uiState: PregnancyUiState) {
     val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
 
     val milestones = listOf(
@@ -85,7 +85,7 @@ fun MilestonesScreen(lmpDateString: String?) {
             modifier = Modifier.padding(vertical = 24.dp),
         )
 
-        if (lmpDate != null) {
+        if (uiState.lmpDate != null) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -99,7 +99,7 @@ fun MilestonesScreen(lmpDateString: String?) {
                     ) 
                 }
                 items(milestones.filter { it.startWeek <= 13 }) { milestone ->
-                    MilestoneCard(milestone, lmpDate, formatter)
+                    MilestoneCard(milestone, uiState.lmpDate, formatter)
                 }
 
                 // Second Trimester Section
@@ -111,7 +111,7 @@ fun MilestonesScreen(lmpDateString: String?) {
                     ) 
                 }
                 items(milestones.filter { it.startWeek in 14..27 }) { milestone ->
-                    MilestoneCard(milestone, lmpDate, formatter)
+                    MilestoneCard(milestone, uiState.lmpDate, formatter)
                 }
 
                 // Third Trimester Section
@@ -123,7 +123,7 @@ fun MilestonesScreen(lmpDateString: String?) {
                     ) 
                 }
                 items(milestones.filter { it.startWeek >= 28 }) { milestone ->
-                    MilestoneCard(milestone, lmpDate, formatter)
+                    MilestoneCard(milestone, uiState.lmpDate, formatter)
                 }
             }
         } else {

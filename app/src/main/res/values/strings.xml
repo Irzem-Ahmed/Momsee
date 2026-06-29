@@ -65,7 +65,7 @@
     <!-- Timeline Screen -->
     <string name="timeline_first_trimester_info">Weeks 1 – 13\nStarted on: %1$s</string>
     <string name="timeline_second_trimester_info">Weeks 14 – 27\nStarts on: %1$s</string>
-    <string name="timeline_third_trimester_info">Weeks 28 – 40\nStarts on: %1$s</string>
+    <string name="timeline_third_trimester_info">Weeks 28 – 42\nStarts on: %1$s</string>
     <string name="timeline_due_date_card">Expected Due Date</string>
     <string name="timeline_no_date">No date set. Go to Settings to set your LMP.</string>
     <string name="timeline_sheet_first">First Trimester Weeks</string>

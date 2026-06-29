@@ -11,18 +11,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.momsee.app.R
+import com.momsee.app.ui.PregnancyUiState
 import com.momsee.app.ui.components.DatePickerButton
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun SettingsScreen(
-    lmpDateString: String?,
+    uiState: PregnancyUiState,
     onDateSelected: (LocalDate) -> Unit,
-    darkModeOverride: Boolean?,
     onToggleDarkMode: (Boolean?) -> Unit,
 ) {
-    val lmpDate = lmpDateString?.let { LocalDate.parse(it) }
     val formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy")
     val isSystemDark = isSystemInDarkTheme()
 
@@ -53,7 +52,7 @@ fun SettingsScreen(
                     style = MaterialTheme.typography.labelLarge,
                 )
                 Text(
-                    text = lmpDate?.format(formatter) ?: stringResource(R.string.settings_not_set),
+                    text = uiState.lmpDate?.format(formatter) ?: stringResource(R.string.settings_not_set),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(bottom = 16.dp),
@@ -85,7 +84,7 @@ fun SettingsScreen(
                             fontWeight = FontWeight.Medium,
                         )
                         Text(
-                            text = if (darkModeOverride == null) {
+                            text = if (uiState.darkModeOverride == null) {
                                 val systemMode = if (isSystemDark) "Dark" else "Light"
                                 stringResource(R.string.settings_system_mode, systemMode)
                             } else stringResource(R.string.settings_forced_mode),
@@ -94,12 +93,12 @@ fun SettingsScreen(
                         )
                     }
                     Switch(
-                        checked = darkModeOverride ?: isSystemDark,
+                        checked = uiState.darkModeOverride ?: isSystemDark,
                         onCheckedChange = { onToggleDarkMode(it) },
                     )
                 }
 
-                if (darkModeOverride != null) {
+                if (uiState.darkModeOverride != null) {
                     TextButton(
                         onClick = { onToggleDarkMode(null) },
                         modifier = Modifier.align(Alignment.End),

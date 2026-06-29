@@ -9,15 +9,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.StrokeCap
 import com.momsee.app.R
-import java.time.LocalDate
-import java.time.temporal.ChronoUnit
+import com.momsee.app.ui.PregnancyUiState
 
 @Composable
-fun HomeScreen(lmpDateString: String?) {
-    val lmpDate = lmpDateString?.let { LocalDate.parse(it) }
-    val today = LocalDate.now()
-
+fun HomeScreen(uiState: PregnancyUiState) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,68 +39,133 @@ fun HomeScreen(lmpDateString: String?) {
             modifier = Modifier.padding(bottom = 32.dp),
         )
 
-        if (lmpDate != null) {
-            val totalDays = 280L // Standard 40 weeks
-            val daysPassed = ChronoUnit.DAYS.between(lmpDate, today)
-            val daysRemaining = totalDays - daysPassed
-            
-            val weeksPassed = (daysPassed / 7).toInt()
-            val extraDaysPassed = (daysPassed % 7).toInt()
-            
-            val progress = (daysPassed.toFloat() / totalDays.toFloat()).coerceIn(0f, 1f)
-
+        if (uiState.lmpDate != null) {
             // Progress Section
             Column(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                Text(
-                    text = stringResource(R.string.home_you_are),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                
-                Text(
-                    text = stringResource(R.string.home_weeks_and_days, weeksPassed, extraDaysPassed),
-                    style = MaterialTheme.typography.displaySmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(vertical = 8.dp),
-                )
-                
-                Text(
-                    text = stringResource(R.string.home_pregnant),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    // Time Elapsed Card
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "Time elapsed since LMP",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = stringResource(
+                                    R.string.home_weeks_and_days,
+                                    uiState.weeksPassed,
+                                    uiState.extraDaysPassed
+                                ),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            )
+                        }
+                    }
+
+                    // Current Week Card
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "Your Current Week",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = stringResource(R.string.timeline_week_label, uiState.currentWeek),
+                                style = MaterialTheme.typography.headlineMedium,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(48.dp))
 
-                // Visual Progress Bar
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    LinearProgressIndicator(
-                        progress = { progress },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(12.dp),
-                        strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
-                        color = MaterialTheme.colorScheme.primary,
-                        trackColor = MaterialTheme.colorScheme.primaryContainer,
+                // Modern Circular Progress Graphic
+                Box(
+                    modifier = Modifier.size(240.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Background Glow / Halo
+                    Surface(
+                        modifier = Modifier.fillMaxSize().padding(12.dp),
+                        shape = androidx.compose.foundation.shape.CircleShape,
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
+                    ) {}
+
+                    // Track
+                    CircularProgressIndicator(
+                        progress = { 1f },
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        strokeWidth = 12.dp,
+                        strokeCap = StrokeCap.Round
                     )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
+
+                    // Active Progress
+                    CircularProgressIndicator(
+                        progress = { uiState.progress },
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = 12.dp,
+                        strokeCap = StrokeCap.Round
+                    )
+
+                    // Center Percentage & Label
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            stringResource(R.string.home_conception),
-                            style = MaterialTheme.typography.labelSmall,
+                            text = "${(uiState.progress * 100).toInt()}%",
+                            style = MaterialTheme.typography.displayMedium,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            stringResource(R.string.home_due_date_label),
-                            style = MaterialTheme.typography.labelSmall,
+                            text = "Complete",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontWeight = FontWeight.Medium
                         )
                     }
                 }
@@ -132,11 +194,11 @@ fun HomeScreen(lmpDateString: String?) {
                             horizontalArrangement = Arrangement.SpaceEvenly,
                         ) {
                             CountdownItem(
-                                daysRemaining.toString(),
+                                uiState.daysRemaining.toString(),
                                 stringResource(R.string.home_days),
                             )
                             CountdownItem(
-                                (daysRemaining / 7).toString(),
+                                (uiState.daysRemaining / 7).toString(),
                                 stringResource(R.string.home_weeks),
                             )
                         }

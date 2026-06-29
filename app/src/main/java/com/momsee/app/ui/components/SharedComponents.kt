@@ -1,17 +1,16 @@
 package com.momsee.app.ui.components
 
-import android.app.DatePickerDialog
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import java.time.Instant
 import java.time.LocalDate
-import java.util.*
+import java.time.ZoneOffset
 
 @Composable
 fun TimelineCard(
@@ -31,22 +30,41 @@ fun TimelineCard(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerButton(text: String, onDateSelected: (LocalDate) -> Unit) {
-    val context = LocalContext.current
-    val calendar = Calendar.getInstance()
-    
-    val datePickerDialog = DatePickerDialog(
-        context,
-        { _, year, month, dayOfMonth ->
-            onDateSelected(LocalDate.of(year, month + 1, dayOfMonth))
-        },
-        calendar[Calendar.YEAR],
-        calendar[Calendar.MONTH],
-        calendar[Calendar.DAY_OF_MONTH]
-    )
+    var showDialog by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
 
-    Button(onClick = { datePickerDialog.show() }) {
+    Button(onClick = { showDialog = true }) {
         Text(text)
+    }
+
+    if (showDialog) {
+        DatePickerDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let {
+                            val date = Instant.ofEpochMilli(it)
+                                .atZone(ZoneOffset.UTC)
+                                .toLocalDate()
+                            onDateSelected(date)
+                        }
+                        showDialog = false
+                    }
+                ) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
     }
 }
