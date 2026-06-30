@@ -1,15 +1,43 @@
 package com.momsee.app.ui.screens
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
@@ -27,18 +55,18 @@ fun HomeScreen(uiState: PregnancyUiState, onInfoClick: () -> Unit) {
     val scrollState = rememberScrollState()
     
     // Animation: Progress Sweep
-    var startAnimation by remember { mutableStateOf(false) }
+    var startAnimation by remember { mutableStateOf(value = false) }
     val animatedProgress by animateFloatAsState(
         targetValue = if (startAnimation) uiState.progress else 0f,
         animationSpec = tween(durationMillis = 1200, easing = FastOutSlowInEasing),
-        label = "ProgressSweep"
+        label = "ProgressSweep",
     )
 
     // Animation: Staggered Entrance Alpha
     val entranceAlpha by animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
         animationSpec = tween(durationMillis = 800),
-        label = "EntranceAlpha"
+        label = "EntranceAlpha",
     )
 
     LaunchedEffect(Unit) {
@@ -88,15 +116,15 @@ fun HomeScreen(uiState: PregnancyUiState, onInfoClick: () -> Unit) {
             modifier = Modifier.padding(bottom = 32.dp),
         )
 
-            if (uiState.lmpDate != null) {
-                // Progress Section
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .graphicsLayer(alpha = entranceAlpha),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
+        if (uiState.lmpDate != null) {
+            // Progress Section
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .graphicsLayer(alpha = entranceAlpha),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -138,7 +166,7 @@ fun HomeScreen(uiState: PregnancyUiState, onInfoClick: () -> Unit) {
                         }
                     }
 
-                    // Current Week Card
+                    // Your Current Week Card
                     Card(
                         modifier = Modifier
                             .weight(1f)

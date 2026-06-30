@@ -24,7 +24,7 @@ fun InfoScreen(onBack: () -> Unit) {
         PregnancyTerm(
             "LMP",
             "Last Menstrual Period",
-            "The first day of your last period, used as the starting point to calculate your estimated due date and gestational age."
+            "The first day of your last period, used as the starting point to calculate your estimated due date and gestational age.",
         ),
         PregnancyTerm(
             "GA",

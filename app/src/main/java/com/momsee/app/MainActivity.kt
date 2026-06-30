@@ -90,7 +90,7 @@ fun MomseeApp(viewModel: PregnancyViewModel) {
         Screen.DoctorVisits::class,
         Screen.Milestones::class,
         Screen.Settings::class,
-        Screen.Info::class
+        Screen.Info::class,
     )
 
     fun getTransitionDirection(
@@ -101,10 +101,10 @@ fun MomseeApp(viewModel: PregnancyViewModel) {
         val targetRoute = target?.destination?.route?.substringBefore("?") ?: return true
 
         val initialIndex = navigationOrder.indexOfFirst { 
-            it.qualifiedName == initialRoute || it.simpleName == initialRoute.substringAfterLast(".")
+            (it.qualifiedName == initialRoute) || (it.simpleName == initialRoute.substringAfterLast("."))
         }
         val targetIndex = navigationOrder.indexOfFirst { 
-            it.qualifiedName == targetRoute || it.simpleName == targetRoute.substringAfterLast(".")
+            (it.qualifiedName == targetRoute) || (it.simpleName == targetRoute.substringAfterLast("."))
         }
         
         if (initialIndex == -1 || targetIndex == -1) return true
@@ -183,12 +183,14 @@ fun MomseeApp(viewModel: PregnancyViewModel) {
             }
         ) {
             composable<Screen.Landing> {
-                LandingScreen(onDateSelected = { 
-                    viewModel.updateLmpDate(it)
-                    navController.navigate(Screen.Home) {
-                        popUpTo(Screen.Landing) { inclusive = true }
+                LandingScreen(
+                    onDateSelected = { 
+                        viewModel.updateLmpDate(it)
+                        navController.navigate(Screen.Home) {
+                            popUpTo(Screen.Landing) { inclusive = true }
+                        }
                     }
-                })
+                )
             }
             composable<Screen.Home> {
                 HomeScreen(

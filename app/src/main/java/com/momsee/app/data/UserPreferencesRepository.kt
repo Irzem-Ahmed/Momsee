@@ -7,7 +7,6 @@ import androidx.datastore.preferences.core.emptyPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.IOException
 import java.time.LocalDate
@@ -26,7 +25,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
             val json = preferences[UserPreferences.DOCTOR_VISITS_KEY] ?: "[]"
             try {
                 Json.decodeFromString<List<DoctorVisit>>(json)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 emptyList()
             }
         }
@@ -76,7 +75,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
             val currentJson = preferences[UserPreferences.DOCTOR_VISITS_KEY] ?: "[]"
             val currentList = try {
                 Json.decodeFromString<List<DoctorVisit>>(currentJson).toMutableList()
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 mutableListOf()
             }
             currentList.add(visit)
@@ -89,7 +88,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
             val currentJson = preferences[UserPreferences.DOCTOR_VISITS_KEY] ?: "[]"
             val currentList = try {
                 Json.decodeFromString<List<DoctorVisit>>(currentJson).toMutableList()
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 mutableListOf()
             }
             currentList.removeAll { it.id == visitId }

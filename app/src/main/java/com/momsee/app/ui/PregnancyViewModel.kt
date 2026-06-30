@@ -24,7 +24,7 @@ data class PregnancyUiState(
     val daysRemaining: Long = 0,
     val progress: Float = 0f,
     val dueDate: LocalDate? = null,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
 )
 
 class PregnancyViewModel(
