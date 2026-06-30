@@ -7,10 +7,29 @@ import androidx.datastore.preferences.core.emptyPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.io.IOException
 import java.time.LocalDate
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
+
+    val doctorVisits: Flow<List<DoctorVisit>> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map { preferences ->
+            val json = preferences[UserPreferences.DOCTOR_VISITS_KEY] ?: "[]"
+            try {
+                Json.decodeFromString<List<DoctorVisit>>(json)
+            } catch (e: Exception) {
+                emptyList()
+            }
+        }
 
     val lmpDate: Flow<LocalDate?> = dataStore.data
         .catch { exception ->
@@ -49,6 +68,32 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
             } else {
                 preferences[UserPreferences.DARK_MODE_KEY] = isDark
             }
+        }
+    }
+
+    suspend fun addDoctorVisit(visit: DoctorVisit) {
+        dataStore.edit { preferences ->
+            val currentJson = preferences[UserPreferences.DOCTOR_VISITS_KEY] ?: "[]"
+            val currentList = try {
+                Json.decodeFromString<List<DoctorVisit>>(currentJson).toMutableList()
+            } catch (e: Exception) {
+                mutableListOf()
+            }
+            currentList.add(visit)
+            preferences[UserPreferences.DOCTOR_VISITS_KEY] = Json.encodeToString(currentList)
+        }
+    }
+
+    suspend fun deleteDoctorVisit(visitId: String) {
+        dataStore.edit { preferences ->
+            val currentJson = preferences[UserPreferences.DOCTOR_VISITS_KEY] ?: "[]"
+            val currentList = try {
+                Json.decodeFromString<List<DoctorVisit>>(currentJson).toMutableList()
+            } catch (e: Exception) {
+                mutableListOf()
+            }
+            currentList.removeAll { it.id == visitId }
+            preferences[UserPreferences.DOCTOR_VISITS_KEY] = Json.encodeToString(currentList)
         }
     }
 }

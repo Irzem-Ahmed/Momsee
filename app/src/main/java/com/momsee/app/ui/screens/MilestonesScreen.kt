@@ -1,12 +1,15 @@
 package com.momsee.app.ui.screens
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,61 +24,41 @@ data class Milestone(
     val descriptionRes: Int,
     val startWeek: Int,
     val endWeek: Int? = null,
-    val startDayOffset: Int = 0, // Days after the start of the week
-    val endDayOffset: Int = 0,    // Days after the start of the week
+    val startDayOffset: Int = 0,
+    val endDayOffset: Int = 0,
 )
 
 @Composable
 fun MilestonesScreen(uiState: PregnancyUiState) {
     val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
+    
+    var startAnimation by remember { mutableStateOf(false) }
+    val alpha by animateFloatAsState(
+        targetValue = if (startAnimation) 1f else 0f,
+        animationSpec = tween(800),
+        label = "Alpha"
+    )
+    
+    LaunchedEffect(Unit) {
+        startAnimation = true
+    }
 
     val milestones = listOf(
-        Milestone(
-            R.string.milestone_conceived_title,
-            R.string.milestone_conceived_desc,
-            2, 3,
-        ),
-        Milestone(
-            R.string.milestone_heartbeat_title,
-            R.string.milestone_heartbeat_desc,
-            6, 7,
-        ),
-        Milestone(
-            R.string.milestone_movements_title,
-            R.string.milestone_movements_desc,
-            16, 25,
-        ),
-        Milestone(
-            R.string.milestone_gender_title,
-            R.string.milestone_gender_desc,
-            18, 22,
-        ),
-        Milestone(
-            R.string.milestone_midway_title,
-            R.string.milestone_midway_desc,
-            20,
-        ),
-        Milestone(
-            R.string.milestone_survival_title,
-            R.string.milestone_survival_desc,
-            22, 24,
-        ),
-        Milestone(
-            R.string.milestone_breathe_title,
-            R.string.milestone_breathe_desc,
-            26, 37,
-        ),
-        Milestone(
-            R.string.milestone_full_term_title,
-            R.string.milestone_full_term_desc,
-            39, 40, 0, 6, // 39w 0d to 40w 6d
-        ),
+        Milestone(R.string.milestone_conceived_title, R.string.milestone_conceived_desc, 2, 3),
+        Milestone(R.string.milestone_heartbeat_title, R.string.milestone_heartbeat_desc, 6, 7),
+        Milestone(R.string.milestone_movements_title, R.string.milestone_movements_desc, 16, 25),
+        Milestone(R.string.milestone_gender_title, R.string.milestone_gender_desc, 18, 22),
+        Milestone(R.string.milestone_midway_title, R.string.milestone_midway_desc, 20),
+        Milestone(R.string.milestone_survival_title, R.string.milestone_survival_desc, 22, 24),
+        Milestone(R.string.milestone_breathe_title, R.string.milestone_breathe_desc, 26, 37),
+        Milestone(R.string.milestone_full_term_title, R.string.milestone_full_term_desc, 39, 40, 0, 6)
     )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp),
+            .padding(horizontal = 24.dp)
+            .graphicsLayer(alpha = alpha),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -83,6 +66,7 @@ fun MilestonesScreen(uiState: PregnancyUiState) {
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 24.dp),
+            color = MaterialTheme.colorScheme.primary
         )
 
         if (uiState.lmpDate != null) {
@@ -91,7 +75,6 @@ fun MilestonesScreen(uiState: PregnancyUiState) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(bottom = 24.dp),
             ) {
-                // First Trimester Section
                 item { 
                     TrimesterHeader(
                         stringResource(R.string.milestones_first_trimester), 
@@ -102,7 +85,6 @@ fun MilestonesScreen(uiState: PregnancyUiState) {
                     MilestoneCard(milestone, uiState.lmpDate, formatter)
                 }
 
-                // Second Trimester Section
                 item { 
                     Spacer(modifier = Modifier.height(8.dp))
                     TrimesterHeader(
@@ -114,7 +96,6 @@ fun MilestonesScreen(uiState: PregnancyUiState) {
                     MilestoneCard(milestone, uiState.lmpDate, formatter)
                 }
 
-                // Third Trimester Section
                 item { 
                     Spacer(modifier = Modifier.height(8.dp))
                     TrimesterHeader(
@@ -167,13 +148,13 @@ fun MilestoneCard(milestone: Milestone, lmpDate: LocalDate, formatter: DateTimeF
         lmpDate.plusWeeks(it.toLong() - 1).plusDays(milestone.endDayOffset.toLong()) 
     }
 
-    val dateRangeText = if (((endDate != null) && (endDate != startDate))) {
+    val dateRangeText = if (endDate != null && endDate != startDate) {
         "${startDate.format(formatter)} - ${endDate.format(formatter)}"
     } else {
         startDate.format(formatter)
     }
 
-    val weeksText = if (((milestone.endWeek != null) && (milestone.endWeek != milestone.startWeek))) {
+    val weeksText = if (milestone.endWeek != null && milestone.endWeek != milestone.startWeek) {
         stringResource(R.string.timeline_weeks_range, milestone.startWeek, milestone.endWeek)
     } else {
         stringResource(R.string.timeline_week_label, milestone.startWeek)
@@ -181,7 +162,9 @@ fun MilestoneCard(milestone: Milestone, lmpDate: LocalDate, formatter: DateTimeF
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f)
+        )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -194,11 +177,13 @@ fun MilestoneCard(milestone: Milestone, lmpDate: LocalDate, formatter: DateTimeF
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Text(
                     text = weeksText,
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.Bold
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
@@ -206,13 +191,13 @@ fun MilestoneCard(milestone: Milestone, lmpDate: LocalDate, formatter: DateTimeF
                 text = dateRangeText,
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(milestone.descriptionRes),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
     }

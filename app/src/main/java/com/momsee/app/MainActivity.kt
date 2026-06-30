@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MedicalServices
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
@@ -22,6 +23,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -33,7 +35,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.momsee.app.ui.PregnancyViewModel
 import com.momsee.app.ui.navigation.Screen
+import com.momsee.app.ui.screens.DoctorVisitsScreen
 import com.momsee.app.ui.screens.HomeScreen
+import com.momsee.app.ui.screens.InfoScreen
 import com.momsee.app.ui.screens.LandingScreen
 import com.momsee.app.ui.screens.MilestonesScreen
 import com.momsee.app.ui.screens.SettingsScreen
@@ -83,8 +87,10 @@ fun MomseeApp(viewModel: PregnancyViewModel) {
         Screen.Landing::class,
         Screen.Home::class,
         Screen.Timeline::class,
+        Screen.DoctorVisits::class,
         Screen.Milestones::class,
-        Screen.Settings::class
+        Screen.Settings::class,
+        Screen.Info::class
     )
 
     fun getTransitionDirection(
@@ -113,6 +119,7 @@ fun MomseeApp(viewModel: PregnancyViewModel) {
                     val items = listOf(
                         NavigationItem(stringResource(R.string.nav_home), Icons.Default.Home, Screen.Home),
                         NavigationItem(stringResource(R.string.nav_timeline), Icons.Default.DateRange, Screen.Timeline),
+                        NavigationItem("Visits", Icons.Default.MedicalServices, Screen.DoctorVisits),
                         NavigationItem(stringResource(R.string.nav_milestones), Icons.Default.Star, Screen.Milestones),
                         NavigationItem(stringResource(R.string.nav_settings), Icons.Default.Settings, Screen.Settings),
                     )
@@ -122,6 +129,9 @@ fun MomseeApp(viewModel: PregnancyViewModel) {
                             label = { 
                                 Text(
                                     text = item.label,
+                                    fontSize = 14.sp, // Increased for comfort
+                                    maxLines = 1,
+                                    softWrap = false,
                                     fontWeight = if (currentDestination.hierarchy.any { it.hasRoute(item.screen::class) }) {
                                         androidx.compose.ui.text.font.FontWeight.Bold
                                     } else {
@@ -181,13 +191,26 @@ fun MomseeApp(viewModel: PregnancyViewModel) {
                 })
             }
             composable<Screen.Home> {
-                HomeScreen(uiState)
+                HomeScreen(
+                    uiState = uiState,
+                    onInfoClick = { navController.navigate(Screen.Info) }
+                )
+            }
+            composable<Screen.Info> {
+                InfoScreen(onBack = { navController.popBackStack() })
             }
             composable<Screen.Timeline> {
                 TimelineScreen(uiState)
             }
             composable<Screen.Milestones> {
                 MilestonesScreen(uiState)
+            }
+            composable<Screen.DoctorVisits> {
+                DoctorVisitsScreen(
+                    uiState = uiState,
+                    onAddVisit = { name, date, desc -> viewModel.addDoctorVisit(name, date, desc) },
+                    onDeleteVisit = { viewModel.deleteDoctorVisit(it) }
+                )
             }
             composable<Screen.Settings> {
                 SettingsScreen(

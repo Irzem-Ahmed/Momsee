@@ -2,6 +2,7 @@ package com.momsee.app.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.momsee.app.data.DoctorVisit
 import com.momsee.app.data.UserPreferencesRepository
 import com.momsee.app.domain.PregnancyMath
 import kotlinx.coroutines.flow.SharingStarted
@@ -10,10 +11,12 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.UUID
 
 data class PregnancyUiState(
     val lmpDate: LocalDate? = null,
     val darkModeOverride: Boolean? = null,
+    val doctorVisits: List<DoctorVisit> = emptyList(),
     val daysPassed: Long = 0,
     val weeksPassed: Int = 0,
     val extraDaysPassed: Int = 0,
@@ -30,15 +33,22 @@ class PregnancyViewModel(
 
     val uiState: StateFlow<PregnancyUiState> = combine(
         repository.lmpDate,
-        repository.darkModeOverride
-    ) { lmpDate, darkMode ->
+        repository.darkModeOverride,
+        repository.doctorVisits
+    ) { lmpDate, darkMode, visits ->
         if (lmpDate == null) {
-            PregnancyUiState(lmpDate = null, darkModeOverride = darkMode, isLoading = false)
+            PregnancyUiState(
+                lmpDate = null, 
+                darkModeOverride = darkMode, 
+                doctorVisits = visits,
+                isLoading = false
+            )
         } else {
             val daysPassed = PregnancyMath.calculateDaysPassed(lmpDate)
             PregnancyUiState(
                 lmpDate = lmpDate,
                 darkModeOverride = darkMode,
+                doctorVisits = visits.sortedByDescending { it.date },
                 daysPassed = daysPassed,
                 weeksPassed = PregnancyMath.calculateWeeksPassed(daysPassed),
                 extraDaysPassed = PregnancyMath.calculateExtraDaysPassed(daysPassed),
@@ -64,6 +74,24 @@ class PregnancyViewModel(
     fun updateDarkMode(isDark: Boolean?) {
         viewModelScope.launch {
             repository.updateDarkMode(isDark)
+        }
+    }
+
+    fun addDoctorVisit(name: String, date: LocalDate, description: String) {
+        viewModelScope.launch {
+            val visit = DoctorVisit(
+                id = UUID.randomUUID().toString(),
+                name = name,
+                date = date.toString(),
+                description = description
+            )
+            repository.addDoctorVisit(visit)
+        }
+    }
+
+    fun deleteDoctorVisit(visitId: String) {
+        viewModelScope.launch {
+            repository.deleteDoctorVisit(visitId)
         }
     }
 }

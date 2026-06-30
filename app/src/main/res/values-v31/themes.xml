@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Momsee" parent="android:Theme.Material.Light.NoActionBar" />
-
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/momsee_splash_logo</item>
         <item name="windowSplashScreenBackground">#1E1A1D</item>
         <item name="postSplashScreenTheme">@style/Theme.Momsee</item>
+
+        <!-- Branding icon can be used to show text or additional logo info on API 31+ -->
+        <item name="android:windowSplashScreenBrandingImage">@drawable/momsee_text_logo</item>
     </style>
 </resources>

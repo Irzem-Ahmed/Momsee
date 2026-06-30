@@ -1,0 +1,49 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="80dp"
+    android:viewportWidth="240"
+    android:viewportHeight="100">
+
+    <!--
+        Consistency Refinement:
+        - Uniform stroke widths (approx 4 units)
+        - Aligned baselines (y=75) and x-heights (y=45)
+        - Specific adjustment: Thinned the first stem (left side) of the 'm'
+    -->
+    <group
+        android:translateX="15"
+        android:translateY="15"
+        android:scaleX="0.85"
+        android:scaleY="0.85">
+
+        <!-- M (Geometric, balanced) -->
+        <path
+            android:fillColor="#F2A7F6"
+            android:pathData="M10,75 L10,30 L14,30 L25,55 L36,30 L40,30 L40,75 L36,75 L36,38 L25,62 L14,38 L14,75 Z"/>
+
+        <!-- o (Geometric circle) -->
+        <path
+            android:fillColor="#F2A7F6"
+            android:pathData="M65,76 C56,76 49,70 49,60 C49,50 56,44 65,44 C74,44 81,50 81,60 C81,70 74,76 65,76 M65,48 C59,48 53,53 53,60 C53,67 59,72 65,72 C71,72 77,67 77,60 C77,53 71,48 65,48"/>
+
+        <!-- m (Refined: Thinner left stem at x=90 to 92.5 instead of 94) -->
+        <path
+            android:fillColor="#F2A7F6"
+            android:pathData="M90,75 L90,45 L92.5,45 L92.5,48 C95.5,45 102,44 106,44 C110,44 114,46 116,50 C119,46 124,44 128,44 C136,44 140,49 140,57 L140,75 L136,75 L136,57 C136,51 133,48 128,48 C123,48 120,52 120,57 L120,75 L116,75 L116,57 C116,51 113,48 108,48 C103,48 100,52 100,57 L100,75 Z"/>
+
+        <!-- s (Balanced curves) -->
+        <path
+            android:fillColor="#F2A7F6"
+            android:pathData="M165,76 C157,76 151,72 151,66 L155,66 C155,70 159,72 165,72 C171,72 174,70 174,66 C174,62 172,61 166,60 C160,59 152,57 152,51 C152,46 158,44 165,44 C172,44 177,46 177,51 L173,51 C173,48 170,47 165,47 C160,47 156,48 156,51 C156,54 158,55 164,56 C171,57 178,59 178,66 C178,72 172,76 165,76"/>
+
+        <!-- e (Standardized aperture) -->
+        <path
+            android:fillColor="#F2A7F6"
+            android:pathData="M200,76 C191,76 184,70 184,60 C184,50 191,44 200,44 C209,44 216,50 216,60 L216,63 L188,63 C189,69 194,72 200,72 C206,72 210,70 212,68 L215,70 C212,74 207,76 200,76 M200,48 C194,48 189,51 188,59 L212,59 C212,52 207,48 200,48"/>
+
+        <!-- e (Double e) -->
+        <path
+            android:fillColor="#F2A7F6"
+            android:pathData="M230,76 C221,76 214,70 214,60 C214,50 221,44 230,44 C239,44 246,50 246,60 L246,63 L218,63 C219,69 224,72 230,72 C236,72 240,70 242,68 L245,70 C242,74 237,76 230,76 M230,48 C224,48 219,51 218,59 L242,59 C242,52 237,48 230,48"/>
+    </group>
+</vector>

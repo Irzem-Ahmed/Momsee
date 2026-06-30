@@ -12,4 +12,5 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "mo
 object UserPreferences {
     val LMP_DATE_KEY = stringPreferencesKey("lmp_date")
     val DARK_MODE_KEY = booleanPreferencesKey("dark_mode")
+    val DOCTOR_VISITS_KEY = stringPreferencesKey("doctor_visits")
 }
